@@ -1,0 +1,9 @@
+.idea
+core/.env
+core/vendor
+core/composer.lock
+frontend/node_modules
+frontend/.nuxt
+frontend/dist
+frontend/yarn.json
+frontend/package-lock.json

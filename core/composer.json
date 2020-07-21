@@ -1,0 +1,32 @@
+{
+  "name": "vesp/app",
+  "type": "project",
+  "license": "MIT",
+  "description": "Example of website made with Vesp",
+  "authors": [
+    {
+      "name": "Vasily Naumkin",
+      "email": "bezumkin@yandex.ru"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "require": {
+    "ext-json": "*",
+    "akrabat/ip-address-middleware": "^1.0",
+    "vesp/core": "^1.0"
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "^3.5"
+  },
+  "scripts": {
+    "cs-check": "phpcs --colors -p --standard=PSR12 src/ db/",
+    "cs-fix": "phpcbf --colors -p --standard=PSR12 src/ db/"
+  },
+  "config": {
+    "sort-packages": true
+  }
+}
