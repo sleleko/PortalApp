@@ -28,6 +28,13 @@ $app->group(
             }
         );
 
+        $group->group(
+            '/dicts',
+            function (RouteCollectorProxy $group) {
+                $group->any('/units', [App\Controllers\Dicts\Units::class, 'process']);
+            }
+        );
+
         $group->any('/security/login', [App\Controllers\Security\Login::class, 'process']);
         $group->any('/security/logout', [App\Controllers\Security\Logout::class, 'process']);
         $group->any('/user/profile', [App\Controllers\User\Profile::class, 'process']);

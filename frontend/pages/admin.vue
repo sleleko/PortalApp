@@ -32,6 +32,7 @@ export default {
     if (this.$auth.hasScope('users') || this.$auth.hasScope('users/get')) {
       items.push({to: 'admin-users', title: 'Пользователи'})
       items.push({to: 'admin-user-roles', title: 'Группы пользователей'})
+      items.push({to: 'admin-units', title: 'Подразделения'})
     }
 
     return {
