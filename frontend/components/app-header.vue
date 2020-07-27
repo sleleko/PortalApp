@@ -8,16 +8,16 @@
 
         <b-navbar-nav class="ml-md-auto order-md-last">
           <b-nav-item v-if="!$auth.loggedIn" @click.prevent="showModal">
-            Login
+            Вход
             <fa :icon="['fas', 'sign-in-alt']" />
           </b-nav-item>
           <b-dropdown v-else id="user-links" :text="$auth.user.fullname" right variant="dark">
             <b-dropdown-item :to="{name: 'user-profile'}">
-              Settings
+              Настройки
             </b-dropdown-item>
             <b-dropdown-divider />
             <b-dropdown-item class="logout" @click.prevent="Logout">
-              Logout
+              Выход
               <fa :icon="['fas', 'sign-out-alt']" class="ml-auto" size="1x" />
             </b-dropdown-item>
           </b-dropdown>
@@ -28,7 +28,7 @@
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
             <b-nav-item v-if="$auth.hasScope('users') || $auth.hasScope('users/get')" :to="{name: 'admin'}"
-              >Admin area
+              >Администрирование
             </b-nav-item>
           </b-navbar-nav>
         </b-collapse>
@@ -46,7 +46,7 @@ import {faSignInAlt, faSignOutAlt} from '@fortawesome/free-solid-svg-icons'
 import FormAuth from '../components/form-auth'
 
 export default {
-  name: 'AppHeader',
+  name: 'Tyumsmu APP',
   components: {FormAuth},
   data() {
     return {

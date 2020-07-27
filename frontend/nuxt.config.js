@@ -14,6 +14,7 @@ export default {
   },
   css: ['~assets/scss/styles.scss'],
   plugins: [
+    '~/plugins/app.js',
     '~/plugins/axios.js',
     '~/plugins/fontawesome.js',
     '~/plugins/filters.js',

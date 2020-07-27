@@ -8,10 +8,10 @@ class UserRoles extends AbstractSeed
     public function run()
     {
         $roles = [
-            'Administrator' => [
+            'Администратор' => [
                 'scope' => ['profile', 'users', 'debug'],
             ],
-            'User' => [
+            'Пользователь' => [
                 'scope' => ['profile'],
             ],
         ];

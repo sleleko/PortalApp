@@ -1,12 +1,12 @@
 <template>
-  <modal-delete v-model="record" :url="url" submit-variant="danger" title="Warning">
+  <modal-delete v-model="record" :url="url" submit-variant="danger" title="Внимание">
     <template slot="fields">
       <b-form-group>
         <p>
-          Are you sure you want to remove user <strong>{{ record.fullname }}</strong
+          Вы действительно хотите удалить пользователя <strong>{{ record.fullname }}</strong
           >?
         </p>
-        <p>This can not be undone.</p>
+        <p>Это действие невозможно отменить.</p>
       </b-form-group>
     </template>
   </modal-delete>

@@ -4,7 +4,7 @@
       <template slot="actions">
         <nuxt-link :to="{name: 'admin-user-roles-create'}" class="btn btn-dark">
           <fa :icon="['fas', 'plus']" />
-          Add User Group
+          Добавить группу
         </nuxt-link>
       </template>
 
@@ -39,10 +39,10 @@ export default {
       url: 'admin/user-roles',
       fields: [
         {key: 'id', label: 'ID', sortable: true},
-        {key: 'title', label: 'Title'},
-        {key: 'scope', label: 'Scopes', formatter: this.formatScopes},
-        {key: 'users_count', label: 'Users'},
-        {key: 'actions', label: 'Actions'},
+        {key: 'title', label: 'Наименование'},
+        {key: 'scope', label: 'Области доступа', formatter: this.formatScopes},
+        {key: 'users_count', label: 'Пользователи'},
+        {key: 'actions', label: 'Действия'},
       ],
       filters: {
         query: null,

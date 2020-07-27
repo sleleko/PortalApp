@@ -6,11 +6,11 @@
         <slot name="buttons">
           <b-row class="mt-2 justify-content-between" no-gutters>
             <b-button :disabled="loading" variant="secondary" @click="$refs.modal.hide()">
-              Cancel
+              Отмена
             </b-button>
             <b-button :disabled="loading" :variant="submitVariant" type="submit">
               <b-spinner v-if="loading" small />
-              Submit
+              Отправить
             </b-button>
           </b-row>
         </slot>

@@ -4,7 +4,7 @@
       <template slot="actions">
         <nuxt-link :to="{name: 'admin-users-create'}" class="btn btn-dark">
           <fa :icon="['fas', 'plus']" />
-          Add User
+          Добавить пользователя
         </nuxt-link>
       </template>
 
@@ -39,10 +39,10 @@ export default {
       url: 'admin/users',
       fields: [
         {key: 'id', label: 'ID', sortable: true},
-        {key: 'username', label: 'Username'},
-        {key: 'fullname', label: 'Fullname'},
-        {key: 'role.title', label: 'User Group'},
-        {key: 'actions', label: 'Actions'},
+        {key: 'username', label: 'Имя пользователя'},
+        {key: 'fullname', label: 'Полное ФИО'},
+        {key: 'role.title', label: 'Группа доступа'},
+        {key: 'actions', label: 'Действия'},
       ],
       filters: {
         query: null,

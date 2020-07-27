@@ -1,11 +1,11 @@
 <template>
-  <modal-create v-model="record" :url="url" title="New user">
+  <modal-create v-model="record" :url="url" title="Новый пользователь">
     <template slot="fields">
-      <b-form-group label="Username">
+      <b-form-group label="Имя пользователя">
         <b-form-input v-model.trim="record.username" autofocus required />
       </b-form-group>
 
-      <b-form-group label="Password">
+      <b-form-group label="Пароль">
         <b-input-group>
           <b-form-input v-model.trim="record.password" required />
           <b-input-group-append>
@@ -16,16 +16,16 @@
         </b-input-group>
       </b-form-group>
 
-      <b-form-group label="Fullname">
+      <b-form-group label="Полное ФИО">
         <b-form-input v-model.trim="record.fullname" required />
       </b-form-group>
 
-      <b-form-group label="User group">
+      <b-form-group label="Группа пользователя">
         <b-form-select v-model="record.role_id" :options="roles" required text-field="title" value-field="id" />
       </b-form-group>
 
       <b-form-group>
-        <b-form-checkbox v-model.number="record.active">Active</b-form-checkbox>
+        <b-form-checkbox v-model.number="record.active">Активный</b-form-checkbox>
       </b-form-group>
     </template>
   </modal-create>

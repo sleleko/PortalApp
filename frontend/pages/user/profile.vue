@@ -1,6 +1,6 @@
 <template>
   <b-form @submit.prevent="Submit">
-    <b-form-group label="Full name">
+    <b-form-group label="Полное ФИО">
       <b-form-input v-model="form.fullname" required />
     </b-form-group>
 
@@ -8,17 +8,17 @@
       <b-form-input v-model="form.email" type="email" />
     </b-form-group>
 
-    <b-form-group label="Phone">
+    <b-form-group label="Телефон">
       <b-form-input v-model="form.phone" type="text" />
     </b-form-group>
 
-    <b-form-group label="Password">
+    <b-form-group label="Пароль">
       <b-form-input v-model="form.password" type="password" />
     </b-form-group>
 
     <b-button :disabled="loading" class="mt-2" type="submit" variant="primary">
       <b-spinner v-if="loading" small />
-      Update Profile
+      Обновить профиль
     </b-button>
   </b-form>
 </template>
@@ -49,7 +49,7 @@ export default {
           }
         }
 
-        this.$notify.success({message: 'Success!'})
+        this.$notify.success({message: 'Готово!'})
       } catch (e) {
       } finally {
         this.loading = false
