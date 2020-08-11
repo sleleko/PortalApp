@@ -4,6 +4,8 @@ namespace App\Controllers\Admin;
 
 use App\Models\UserRole;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+use Psr\Http\Message\ResponseInterface;
 use Vesp\Controllers\ModelController;
 
 class UserRoles extends ModelController
@@ -12,13 +14,13 @@ class UserRoles extends ModelController
     protected $scope = 'users';
 
     /**
-     * @param UserRole $record
-     * @return bool|string
+     * @param Model $record
+     * @return ResponseInterface|null
      */
-    protected function beforeSave($record)
+    protected function beforeSave(Model $record): ?ResponseInterface
     {
         if (!$record->title) {
-            return 'You should specify a title';
+            return $this->failure('You should specify a title');
         }
 
         $check = UserRole::query()->where('title', '=', $record->title);
@@ -26,7 +28,7 @@ class UserRoles extends ModelController
             $check->where('id', '!=', $record->id);
         }
         if ($check->count()) {
-            return 'This title is already in use';
+            return $this->failure('This title is already in use');
         }
 
         $scope = $this->getProperty('scope');
@@ -34,7 +36,7 @@ class UserRoles extends ModelController
             $record->scope = array_map('trim', explode(',', $scope));
         }
 
-        return true;
+        return null;
     }
 
 
@@ -43,7 +45,7 @@ class UserRoles extends ModelController
      *
      * @return Builder
      */
-    protected function beforeCount($c)
+    protected function beforeCount(Builder $c): Builder
     {
         if ($query = trim($this->getProperty('query'))) {
             $c->where('title', 'LIKE', "%$query%");
@@ -58,7 +60,7 @@ class UserRoles extends ModelController
      *
      * @return Builder
      */
-    protected function afterCount($c)
+    protected function afterCount(Builder $c): Builder
     {
         $c->select('id', 'title', 'scope');
         $c->withCount('users');

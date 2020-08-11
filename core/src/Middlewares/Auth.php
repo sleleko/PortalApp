@@ -1,46 +1,62 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Middlewares;
 
-use App\Models\User;
-use App\Models\UserToken;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+use Vesp\Helpers\Jwt;
+use Vesp\Models\User;
+use Vesp\Services\Eloquent;
 
-class Auth extends \Vesp\Middlewares\Auth
+class Auth
 {
-    /**
-     * Extended version with UserToken support
-     *
-     * @param Request $request
-     * @param RequestHandler $handler
-     * @return ResponseInterface
-     */
-    public function __invoke(Request $request, RequestHandler $handler)
+    protected $eloquent;
+    protected $model = User::class;
+
+    public function __construct(Eloquent $eloquent)
+    {
+        $this->eloquent = $eloquent;
+    }
+
+    public function __invoke(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         if ($token = $this->getToken($request)) {
-            /** @var UserToken $user_token */
-            $user_token = UserToken::query()
-                ->where(['user_id' => $token->id, 'token' => $token->token, 'active' => true])
-                ->first();
-            if ($user_token) {
-                if ($user_token->valid_till > date('Y-m-d H:i:s')) {
-                    /** @var User $user */
-                    if ($user = $user_token->user()->where('active', true)->first()) {
-                        $request = $request->withAttribute('user', $user);
-                        $request = $request->withAttribute('token', $user_token->token);
-
-                        $user_token->ip = $request->getAttribute('ip_address');
-                        $user_token->save();
-                    }
-                } else {
-                    $user_token->active = false;
-                    $user_token->save();
-                }
+            /** @var User|null $user */
+            $user = (new $this->model())->newQuery()->where('active', true)->find($token->id);
+            if ($user) {
+                $request = $request->withAttribute('user', $user);
             }
         }
 
         return $handler->handle($request);
+    }
+
+    protected function getToken(ServerRequestInterface $request): ?object
+    {
+        $pcre = '#Bearer\s+(.*)$#i';
+        $token = null;
+
+        $header = $request->getHeaderLine('Authorization');
+        if ($header && preg_match($pcre, $header, $matches)) {
+            $token = $matches[1];
+        } else {
+            $cookies = $request->getCookieParams();
+            if (isset($cookies['auth._token.local'])) {
+                $token = preg_match($pcre, $cookies['auth._token.local'], $matches)
+                    ? $matches[1]
+                    : $cookies['auth._token.local'];
+            }
+        }
+
+        if ($token && $decoded = JWT::decodeToken($token)) {
+            $decoded->token = $token;
+
+            return $decoded;
+        }
+
+        return null;
     }
 }

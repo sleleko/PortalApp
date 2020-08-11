@@ -1,47 +1,30 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controllers\Security;
 
-use App\Models\UserToken;
+use Psr\Http\Message\ResponseInterface;
+//use Vesp\Controllers\Controller;
 use Vesp\Helpers\Jwt;
+use Vesp\Models\User;
 
 class Login extends \Vesp\Controllers\Security\Login
 {
-    public function post()
+    protected $model = User::class;
+
+    public function post(): ResponseInterface
     {
-        // Invalidate old tokens
-        UserToken::query()
-            ->where('active', true)
-            ->where('valid_till', '<', date('Y-m-d H:i:s', time()))
-            ->update(['active' => false]);
+        $username = trim($this->getProperty('username'));
+        $password = trim($this->getProperty('password'));
 
-        $response = parent::post();
-        if ($response->getStatusCode() === 200) {
-            $token = json_decode($response->getBody()->__toString())->token;
-            if ($decoded = JWT::decodeToken($token)) {
-                $user_token = new UserToken(
-                    [
-                        'user_id' => $decoded->id,
-                        'token' => $token,
-                        'valid_till' => date('Y-m-d H:i:s', $decoded->exp),
-                        'ip' => $this->request->getAttribute('ip_address'),
-                    ]
-                );
-                $user_token->save();
-
-                // Limit active tokens
-                $max = getenv('JWT_MAX');
-                if ($max && UserToken::query()->where(['user_id' => $decoded->id, 'active' => true])->count() > $max) {
-                    UserToken::query()
-                        ->where(['user_id' => $decoded->id, 'active' => true])
-                        ->orderBy('updated_at', 'asc')
-                        ->orderBy('created_at', 'asc')
-                        ->first()
-                        ->update(['active' => false]);
-                }
-            }
+        /** @var User|null $user */
+        $user = (new $this->model())->newQuery()->where('username', $username)->first();
+        if ($user && $user->verifyPassword($password)) {
+            return !$user->active
+                ? $this->failure('This user is not active', 403)
+                : $this->success(['token' => Jwt::makeToken($user->id)]);
         }
 
-        return $response;
+        return $this->failure('Wrong username or password', 422);
     }
 }

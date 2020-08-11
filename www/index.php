@@ -23,24 +23,24 @@ $app->group(
         $group->group(
             '/admin',
             function (RouteCollectorProxy $group) {
-                $group->any('/users', [App\Controllers\Admin\Users::class, 'process']);
-                $group->any('/user-roles', [App\Controllers\Admin\UserRoles::class, 'process']);
+                $group->any('/users', App\Controllers\Admin\Users::class);
+                $group->any('/user-roles', App\Controllers\Admin\UserRoles::class);
             }
         );
 
         $group->group(
             '/dicts',
             function (RouteCollectorProxy $group) {
-                $group->any('/units', [App\Controllers\Dicts\Units::class, 'process']);
+                $group->any('/units', App\Controllers\Dicts\Units::class);
             }
         );
 
-        $group->any('/security/login', [App\Controllers\Security\Login::class, 'process']);
-        $group->any('/security/logout', [App\Controllers\Security\Logout::class, 'process']);
-        $group->any('/user/profile', [App\Controllers\User\Profile::class, 'process']);
+        $group->any('/security/login', App\Controllers\Security\Login::class);
+        $group->any('/security/logout', App\Controllers\Security\Logout::class);
+        $group->any('/user/profile', App\Controllers\User\Profile::class);
     }
 );
-$app->get('/image/{id}', [App\Controllers\Image::class, 'process']);
+$app->get('/image/{id}', App\Controllers\Image::class);
 
 try {
     $app->run();

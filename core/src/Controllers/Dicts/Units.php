@@ -5,6 +5,7 @@ namespace App\Controllers\Dicts;
 use App\Models\Unit;
 use Vesp\Controllers\ModelController;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Psr\Http\Message\ResponseInterface;
 
 class Units extends ModelController
@@ -14,24 +15,25 @@ class Units extends ModelController
 
 
     /**
-     * @param Unit $record
-     * @return bool|string
+     * @param Model $record
+     * @return ResponseInterface|null
      */
-    protected function beforeSave($record)
+    protected function beforeSave(Model $record): ?ResponseInterface
     {
         if (!$record->title) {
-            return 'Название подразделения не может быть пустым';
+            return $this->failure('Название подразделения не может быть пустым');
         }
 
         $checkRecord = Unit::query()->where('title','=',$record->title);
+
         if ($checkRecord->count()) {
-            return 'Подразделение с таким названием уже создано';
+            return $this->failure('Подразделение с таким названием уже создано');
         }
-        return true;
+        return null;
     }
 
 
-    protected function afterSave($record)
+    protected function afterSave(Model $record): Model
     {
         return parent::afterSave($record);
     }
@@ -41,7 +43,7 @@ class Units extends ModelController
      *
      * @return Builder
      */
-    protected function beforeCount($c)
+    protected function beforeCount(Builder $c): Builder
     {
         $this->setProperty('limit', 0);
         return $c;
@@ -53,7 +55,7 @@ class Units extends ModelController
      *
      * @return Builder
      */
-    protected function afterCount($c)
+    protected function afterCount(Builder $c): Builder
     {
         return $c;
     }
