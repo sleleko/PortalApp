@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Psr\Http\Message\ResponseInterface;
 use Vesp\Controllers\ModelController;
 
@@ -15,7 +16,7 @@ class Users extends ModelController
     /**
      * @return ResponseInterface
      */
-    public function patch()
+    public function patch(): ResponseInterface
     {
         if (!$password = $this->getProperty('password')) {
             $this->unsetProperty('password');
@@ -25,22 +26,22 @@ class Users extends ModelController
     }
 
     /**
-     * @param User $record
-     * @return bool|string
+     * @param Model $record
+     * @return ResponseInterface|null
      */
-    protected function beforeSave($record)
+    protected function beforeSave(Model $record): ?ResponseInterface
     {
         if (!$record->username) {
-            return 'You should specify an username';
+            return $this->failure('You should specify an username');
         }
         if (!$record->password) {
-            return 'You should specify a password';
+            return $this->failure('You should specify a password');
         }
         if (!$record->fullname) {
-            return 'You should specify a full name';
+            return $this->failure('You should specify a full name');
         }
         if (!$record->role_id) {
-            return 'You should specify an user group';
+            return $this->failure('You should specify an user group');
         }
 
         $check = User::query()->where('username', '=', $record->username);
@@ -48,17 +49,17 @@ class Users extends ModelController
             $check->where('id', '!=', $record->id);
         }
         if ($check->count()) {
-            return 'This username is already in use';
+            return $this->failure('This username is already in use');
         }
 
-        return true;
+        return null;
     }
 
     /**
      * @param Builder $c
      * @return Builder
      */
-    protected function beforeCount($c)
+    protected function beforeCount(Builder $c): Builder
     {
         if ($query = trim($this->getProperty('query'))) {
             $c->where(
@@ -76,7 +77,7 @@ class Users extends ModelController
      * @param Builder $c
      * @return Builder
      */
-    protected function afterCount($c)
+    protected function afterCount(Builder $c): Builder
     {
         $c->select('id', 'role_id', 'username', 'fullname', 'email', 'phone', 'active');
         $c->with('role:id,title');
