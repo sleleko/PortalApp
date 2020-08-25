@@ -1,5 +1,4 @@
 <?php
-
 require dirname(__DIR__) . '/core/vendor/autoload.php';
 
 use Slim\Routing\RouteCollectorProxy;
@@ -32,6 +31,13 @@ $app->group(
             '/dicts',
             function (RouteCollectorProxy $group) {
                 $group->any('/units', App\Controllers\Dicts\Units::class);
+            }
+        );
+
+        $group->group(
+            '/site',
+            function (RouteCollectorProxy $group) {
+                $group->any('/gpb-images', App\Controllers\Site\GpbImages::class);
             }
         );
 

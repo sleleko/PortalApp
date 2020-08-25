@@ -35,6 +35,10 @@
             <fa :icon="['fas', 'virus']" size="2x" />
             <div class="mt-1">Covid-19</div>
           </nuxt-link>
+          <nuxt-link class="p-5 ml-md-2 mt-3 border" :to="{name: 'gpb-card-form'}">
+            <fa :icon="['fas', 'ruble-sign']" size="2x" />
+            <div class="mt-1">Форма загрузки фото для ГПБ</div>
+          </nuxt-link>
         </template>
       </b-row>
     </div>
@@ -50,6 +54,7 @@ import {
   faUserSecret,
   faTasks,
   faVirus,
+  faRubleSign,ssh
 } from '@fortawesome/free-solid-svg-icons'
 export default {
   auth: false,
@@ -63,7 +68,7 @@ export default {
     }
   },
   created() {
-    this.$fa.add(faCoins, faUserTie, faUsers, faUserShield, faUserSecret, faTasks, faVirus)
+    this.$fa.add(faCoins, faUserTie, faUsers, faUserShield, faUserSecret, faTasks, faVirus, faRubleSign)
     this.redirect()
   },
   methods: {

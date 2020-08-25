@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
 namespace App\Controllers\Dicts;
 
 use App\Models\Unit;
+use Throwable;
 use Vesp\Controllers\ModelController;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -38,6 +40,26 @@ class Units extends ModelController
         return parent::afterSave($record);
     }
 
+//    /**
+//     * @return ResponseInterface
+//     * @throws Throwable
+//     */
+//    public function delete(): ResponseInterface
+//    {
+//        if (!$id = $this->getProperty('id')) {
+//            return $this->failure('Вы должны указать айди удаляемого объекта', 422);
+//        }
+//        /** @var Model $record */
+//        if (!$record = (new $this->model())->newQuery()->find($id)) {
+//            return $this->failure('Could not find a record', 404);
+//        }
+//        if ($check = $this->beforeDelete($record)) {
+//            return $check;
+//        }
+//        $record->delete();
+//
+//        return $this->success();
+//    }
     /**
      * @param Builder $c
      *

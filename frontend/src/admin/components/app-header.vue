@@ -43,10 +43,10 @@
 
 <script>
 import {faSignInAlt, faSignOutAlt} from '@fortawesome/free-solid-svg-icons'
-import FormAuth from '../components/form-auth'
+import FormAuth from './form-auth'
 
 export default {
-  name: 'Tyumsmu APP',
+  name: 'TyumsmuAPP',
   components: {FormAuth},
   data() {
     return {
