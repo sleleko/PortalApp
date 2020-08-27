@@ -43,8 +43,12 @@
                 :state="checkAgreement"
               >
                 Я даю согласие на обработку моих персональных данных в соотвествии с
-                <a href="https://www.tyumsmu.ru/upload/iblock/bc8/Soglashenie-na-obrabotku-personalnykh-dannykh.pdf" target="_blank">
-                  соглашением на обработку персональных данных</a>
+                <a
+                  href="https://www.tyumsmu.ru/upload/iblock/bc8/Soglashenie-na-obrabotku-personalnykh-dannykh.pdf"
+                  target="_blank"
+                >
+                  соглашением на обработку персональных данных</a
+                >
               </b-form-checkbox>
             </b-form-group>
             <b-form-group>
@@ -64,10 +68,26 @@
               <ul>
                 <li>Выберите тип паспорта;</li>
                 <li>Укажите серию паспорта 4 цифры. Если у вас иностранный паспорт без серии, то укажите 0000;</li>
-                <li>Укажите номер паспорта 6 цифр;</li>
+                <li>Укажите номер паспорта 6 цифр. Если у вас иностранный паспорт, то его номер целиком;</li>
                 <li>
-                  Скачайте бланк заявления на выпуск карты по <a href="/blank.doc" target="_blank">этой ссылке</a>, отсканируйте в pdf
-                  формате и прикрепите в поле "Скан заявления на выпуск карты"
+                  Скачайте бланк заявления на выпуск карты по <a href="/blank.doc" target="_blank">этой ссылке</a>,
+                  отсканируйте в pdf формате и прикрепите в поле "Скан заявления на выпуск карты";
+                </li>
+                <li>
+                  <strong
+                    >ВНИМАНИЕ!!!: Размер каждого из файлов не должен превышать 3мб, и обязательно дожидайтесь окончания
+                    загрузки файла в поле (появится кнопочка крестик);
+                  </strong>
+                </li>
+                <li>
+                  <strong
+                    >Если ваш браузер возвращает сообщение о невозможности скачать файл по ссылке, нажмите по ней правой
+                    правой кнопкой мыши и выберите пункт меню "Сохранить как";
+                  </strong>
+                </li>
+                <li>
+                  Если вам не понятно как ее заполнять, скайте и изучите образец заполнения заявления по
+                  <a href="/example.pdf" target="_blank">этой ссылке</a>
                 </li>
                 <li>Прикрепите свою фотографию, которая соответсвует следующим требованиям:</li>
                 <ul>
@@ -77,6 +97,14 @@
                   <li>Размер: 2x2 см.</li>
                   <li>Соотношение сторон: 1 к 1</li>
                 </ul>
+                <li>
+                  В случае возникновения ошибки, в нижней части экрана справа всплывает уведомление в красном окошке с
+                  текстом ошибки;
+                </li>
+                <li>
+                  В случае успешеой отправки, в нижней части экрана справа вспывет уведомление в зеленом окошке об
+                  успешности отправки.
+                </li>
                 <li><strong>В случае возникновения проблем, сообщите +7 (3452) 20-07-07</strong></li>
               </ul>
             </b-card-text>
@@ -113,11 +141,16 @@ export default {
     checkType() {
       return this.record.passportType != null
     },
+    // eslint-disable-next-line vue/return-in-computed-property
     checkPassportSeries() {
       return this.record.passportSeries != null && this.record.passportSeries.length === 4
     },
     checkPassportNumber() {
-      return this.record.passportNumber != null && this.record.passportNumber.length === 6
+      return (
+        this.record.passportNumber != null &&
+        this.record.passportNumber.length >= 6 &&
+        this.record.passportNumber.length <= 12
+      )
     },
     checkAcceptance() {
       return this.record.acceptance != null
@@ -138,6 +171,7 @@ export default {
         const record = JSON.parse(JSON.stringify(this.record))
         this.loading = true
         const {data} = await this.$axios.post(this.url, record)
+        // console.log(data)
         this.$notify.success({message: 'Форма успешно отправлена!'})
         this.onReset()
       } catch (err) {

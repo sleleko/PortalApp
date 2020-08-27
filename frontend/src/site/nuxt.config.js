@@ -31,7 +31,8 @@ export default {
     only: ['APP_NAME', 'SITE_URL'],
   },
   axios: {
-    baseURL: process.env.SITE_URL + 'api/',
+    // baseURL: process.env.SITE_URL + 'api/',
+    baseURL: 'https://campus.tyumsmu.ru/api/',
     progress: true,
     proxyHeaders: false,
     credentials: false,

@@ -2,7 +2,7 @@
   <div>
     <b-navbar toggleable="md" type="dark" variant="dark">
       <b-container>
-        <b-navbar-brand :to="{name: 'index'}">
+        <b-navbar-brand>
           <b-img src="~assets/images/logo_univer.png" class="img-contain-left" />
           {{ AppName }}
         </b-navbar-brand>
