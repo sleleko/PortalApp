@@ -32,6 +32,7 @@ class GpbImages extends Image
         $passportSeries = $this->getProperty('passportSeries');
         $passportNumber = $this->getProperty('passportNumber');
         $acceptance = $this->getProperty('acceptance');
+        $passport = $this->getProperty('passport');
         $agreement = $this->getProperty('agreement');
         $image = $this->getProperty('image');
         if ($typePassport === null) {
@@ -46,6 +47,9 @@ class GpbImages extends Image
         if ($acceptance === null) {
             return $this->failure('Не загружено заявление на выпуск карты',422);
         }
+        if ($passport === null) {
+            return $this->failure('Не загружен скан паспорта',422);
+        }
         if ($agreement === null) {
             return $this->failure('Не дано согласие на обработку персональных данных',422);
         }
@@ -53,7 +57,7 @@ class GpbImages extends Image
             return $this->failure('Не загружена фотография',422);
         }
         $upload_dir = '/var/www/html/upload/';
-        if(file_put_contents($upload_dir.'acceptance/FC_'.$passportSeries.'_'.$passportNumber.'_001000_acceptance.pdf', base64_decode(explode(',', $acceptance['file'])[1])) && file_put_contents($upload_dir.'photos/FC_'.$passportSeries.'_'.$passportNumber.'_001000.jpg', base64_decode(explode(',', $image['file'])[1]))) {
+        if(file_put_contents($upload_dir.'acceptance/FC_'.$passportSeries.'_'.$passportNumber.'_001000_acceptance.pdf', base64_decode(explode(',', $acceptance['file'])[1])) && file_put_contents($upload_dir.'passport/FC_'.$passportSeries.'_'.$passportNumber.'_001000_passport.pdf', base64_decode(explode(',', $passport['file'])[1])) && file_put_contents($upload_dir.'photos/FC_'.$passportSeries.'_'.$passportNumber.'_001000.jpg', base64_decode(explode(',', $image['file'])[1]))) {
             return $this->success('Спасибо, данные получены',200);
         } else {
             return $this->failure('Произошла ошибка при отправке формы',422);

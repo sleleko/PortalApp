@@ -27,6 +27,12 @@
                 <b-alert variant="danger" class="mt-2" show>Вы не прикрепили скан заяления</b-alert>
               </template>
             </b-form-group>
+            <b-form-group label="Скан вашего паспорта (Только в PDF формате)">
+              <upload-file v-model="record.passport" accepted-file-types="application/pdf" :state="checkPassport" />
+              <template v-if="!checkPassport">
+                <b-alert variant="danger" class="mt-2" show>Вы не прикрепили скан паспорта</b-alert>
+              </template>
+            </b-form-group>
             <b-form-group label="Ваша фотография (Только в JPEG формате и строго в соответствии с требованиями справа)">
               <upload-image v-model="record.image" :state="checkImage" />
               <template v-if="!checkImage">
@@ -89,6 +95,10 @@
                   Если вам не понятно как ее заполнять, скайте и изучите образец заполнения заявления по
                   <a href="/example.pdf" target="_blank">этой ссылке</a>
                 </li>
+                <li>
+                  Прикрепите скан своего паспорта в pdf формате (Обязательно должнен присутствовать развороты с
+                  фотографией и регистрацией по месту жительства)
+                </li>
                 <li>Прикрепите свою фотографию, которая соответсвует следующим требованиям:</li>
                 <ul>
                   <li>Формат файла: JPEG</li>
@@ -102,10 +112,15 @@
                   текстом ошибки;
                 </li>
                 <li>
-                  В случае успешеой отправки, в нижней части экрана справа вспывет уведомление в зеленом окошке об
+                  В случае успешной отправки, в нижней части экрана справа всплывет уведомление в зеленом окошке об
                   успешности отправки.
                 </li>
-                <li><strong>В случае возникновения проблем, сообщите +7 (3452) 20-07-07</strong></li>
+                <li>
+                  <strong
+                    >В случае возникновения проблем, сообщите<br />
+                    +7 (3452) 20-07-07, e-mail: <a href="mailto:gpbform@tyumsmu.ru">gpbform@tyumsmu.ru</a></strong
+                  >
+                </li>
               </ul>
             </b-card-text>
           </b-card>
@@ -133,6 +148,7 @@ export default {
         passportSeries: null,
         passportNumber: null,
         acceptance: null,
+        passport: null,
         image: null,
       },
     }
@@ -154,6 +170,9 @@ export default {
     },
     checkAcceptance() {
       return this.record.acceptance != null
+    },
+    checkPassport() {
+      return this.record.passport != null
     },
     checkImage() {
       return this.record.image != null
@@ -188,6 +207,7 @@ export default {
         passportType: null,
         passportSeries: null,
         passportNumber: null,
+        passport: null,
         acceptance: null,
         image: null,
         agreement: null,
