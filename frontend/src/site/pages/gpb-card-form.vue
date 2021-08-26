@@ -138,24 +138,23 @@ export default {
       loading: false,
       url: 'site/gpb-images',
       types: [
-        {id: null, title: 'Выберите тип'},
+        {id: 0, title: 'Выберите тип'},
         {id: 1, title: 'Паспорт РФ'},
         {id: 2, title: 'Паспорт иностранного гражданина'},
       ],
       record: {
-        // id: null,
-        passportType: null,
-        passportSeries: null,
-        passportNumber: null,
-        acceptance: null,
-        passport: null,
-        image: null,
+        passportType: 0,
+        passportSeries: '',
+        passportNumber: '',
+        acceptance: {},
+        passport: {},
+        image: {},
       },
     }
   },
   computed: {
     checkType() {
-      return this.record.passportType != null
+      return this.record.passportType !== 0
     },
     // eslint-disable-next-line vue/return-in-computed-property
     checkPassportSeries() {
@@ -204,13 +203,12 @@ export default {
     onReset() {
       // eslint-disable-next-line no-unused-expressions
       this.record = {
-        passportType: null,
-        passportSeries: null,
-        passportNumber: null,
-        passport: null,
-        acceptance: null,
-        image: null,
-        agreement: null,
+        passportType: 0,
+        passportSeries: '',
+        passportNumber: '',
+        acceptance: {},
+        passport: {},
+        image: {},
       }
     },
   },

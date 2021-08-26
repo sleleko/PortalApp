@@ -1,5 +1,5 @@
 {
-  "name": "Portal-app",
+  "name": "lelekoru/portalapp",
   "type": "project",
   "license": "MIT",
   "description": "PortalAPP on Vesp",
@@ -17,7 +17,7 @@
   "require": {
     "ext-json": "*",
     "akrabat/ip-address-middleware": "^1.0.1",
-    "vesp/core": "^2.0.0"
+    "vesp/core": "^2.2.0"
   },
   "require-dev": {
     "squizlabs/php_codesniffer": "^3.5.6"

@@ -18,13 +18,7 @@ use Vesp\Models\File;
 class GpbImages extends Image
 {
     protected $model = GpbImage::class;
-//    public function put(): ResponseInterface
-//    {
-//        if ($this->getProperty('test') === 1) {
-//            return $this->failure('ОЙ',422);
-//        }
-//        return $this->success('OK',200);
-//    }
+
     public function post(): ResponseInterface
     {
         $dir = env('UPLOAD_DIR');

@@ -1,32 +1,33 @@
 <template>
   <file-pond
-    ref="uploadfile"
-    class-name="upload-file"
-    :accepted-file-types="acceptedFileTypes"
-    :label-idle="label"
-    :allow-multiple="false"
-    :instant-upload="false"
-    :allow-drop="true"
-    :allow-image-preview="false"
-    :allow-image-resize="false"
-    :allow-image-filter="false"
-    label-file-loading="Подготовка"
-    label-file-processing="Загрузка"
-    label-tap-to-cancel="Отмена"
-    label-file-waiting-for-size="Ожидание размера"
-    style-panel-layout="integrated"
-    @addfile="addFile"
-    @removefile="removeFile"
-  />
+      ref="filepond"
+      className="upload-file"
+      :acceptedFileTypes="acceptedFileTypes"
+      :labelIdle="label"
+      :allow-multiple="false"
+      :instantUpload="false"
+      :allowDrop="true"
+      :allowImagePreview="false"
+      :allowImageResize="false"
+      :allowImageFilter="false"
+      labelFileLoading="Подготовка"
+      labelFileProcessing="Загрузка"
+      labelTapToCancel="Отмена"
+      labelFileWaitingForSize="Ожидание размера"
+      stylePanelLayout="integrated"
+      @addfile="addFile"
+      @removefile="removeFile"/>
 </template>
 
 <script>
+
 export default {
-  name: 'UploadFile',
+  name: 'upload-file',
   props: {
     value: {
       type: Object,
       required: false,
+      default: {},
     },
     label: {
       type: String,
@@ -37,8 +38,6 @@ export default {
       type: String,
       default: null,
     },
-    state: Boolean,
-    required: true
   },
   computed: {
     myValue: {
@@ -47,25 +46,25 @@ export default {
       },
       set(newValue) {
         this.$emit('input', newValue)
-      },
-    },
+      }
+    }
   },
   methods: {
     addFile(e, file) {
-      const data = {
+      let data = {
         id: file.id,
         metadata: file.getMetadata(),
         file: file.getFileEncodeDataURL(),
-      }
-      data.metadata.filename = file.filename
-      data.metadata.size = file.size
-      data.metadata.type = file.type
-      this.myValue = data
+      };
+      data.metadata.filename = file.filename;
+      data.metadata.size = file.size;
+      data.metadata.type = file.type;
+      this.myValue = data;
     },
     removeFile(e, file) {
-      this.myValue = null
+      this.myValue = null;
     },
-  },
+  }
 }
 </script>
 

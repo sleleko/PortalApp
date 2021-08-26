@@ -35,7 +35,7 @@
       </b-container>
     </b-navbar>
 
-    <b-modal :visible="isModal && !$auth.loggedIn" hide-footer title="Authorization" @hidden="hideModal">
+    <b-modal :visible="isModal && !$auth.loggedIn" hide-footer title="Вход в админ панель" @hidden="hideModal">
       <form-auth />
     </b-modal>
   </div>
@@ -66,7 +66,7 @@ export default {
     },
     Logout() {
       this.$auth.logout('local').then(() => {
-        this.$notify.info({message: 'Goodbye!'})
+        this.$notify.info({message: 'Досвидания!'})
       })
     },
   },

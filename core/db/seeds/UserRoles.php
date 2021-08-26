@@ -14,6 +14,9 @@ class UserRoles extends AbstractSeed
             'Пользователь' => [
                 'scope' => ['profile'],
             ],
+            'Администратор ВКР' => [
+                'scope' => ['vkr'],
+            ],
         ];
 
         foreach ($roles as $group => $data) {

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Controllers\Admin;
 
 use App\Models\UserRole;
@@ -12,17 +10,19 @@ use Vesp\Controllers\ModelController;
 
 class UserRoles extends ModelController
 {
+
     protected $model = UserRole::class;
     protected $scope = 'users';
 
+
     /**
-     * @param Model $record
+     * @param UserRole|Model $record
      * @return ResponseInterface|null
      */
     protected function beforeSave(Model $record): ?ResponseInterface
     {
         if (!$record->title) {
-            return $this->failure('You should specify a title');
+            return $this->failure('Вы должны указать название группы');
         }
 
         $check = UserRole::query()->where('title', '=', $record->title);
@@ -30,7 +30,7 @@ class UserRoles extends ModelController
             $check->where('id', '!=', $record->id);
         }
         if ($check->count()) {
-            return $this->failure('This title is already in use');
+            return $this->failure('Это название группы уже используется');
         }
 
         $scope = $this->getProperty('scope');
@@ -41,12 +41,6 @@ class UserRoles extends ModelController
         return null;
     }
 
-
-    /**
-     * @param Builder $c
-     *
-     * @return Builder
-     */
     protected function beforeCount(Builder $c): Builder
     {
         if ($query = trim($this->getProperty('query'))) {
@@ -56,12 +50,6 @@ class UserRoles extends ModelController
         return $c;
     }
 
-
-    /**
-     * @param Builder $c
-     *
-     * @return Builder
-     */
     protected function afterCount(Builder $c): Builder
     {
         $c->select('id', 'title', 'scope');

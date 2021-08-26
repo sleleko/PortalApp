@@ -7,3 +7,5 @@ frontend/.nuxt
 frontend/dist
 frontend/yarn.json
 frontend/package-lock.json
+/upload/
+/cache/

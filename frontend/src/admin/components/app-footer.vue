@@ -1,6 +1,6 @@
 <template>
   <footer class="container mt-auto text-center text-md-right">
-    <small>&copy; {{ AppName }} {{ year }}. All rights reserved.</small>
+    <small>&copy; {{ AppName }} {{ year }}. Все права защищены.</small>
   </footer>
 </template>
 

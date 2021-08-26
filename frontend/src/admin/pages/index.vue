@@ -40,6 +40,12 @@
             <div class="mt-1">Форма загрузки фото для ГПБ</div>
           </nuxt-link>
         </template>
+        <template v-if="$hasScope('vkr')">
+          <nuxt-link class="p-5 ml-md-2 mt-3 border" :to="{name: 'vkr'}">
+            <fa :icon="['fas', 'users']" size="2x" />
+            <div class="mt-1">Управление ВКР</div>
+          </nuxt-link>
+        </template>
       </b-row>
     </div>
   </div>
@@ -54,7 +60,7 @@ import {
   faUserSecret,
   faTasks,
   faVirus,
-  faRubleSign,ssh
+  faRubleSign,
 } from '@fortawesome/free-solid-svg-icons'
 export default {
   auth: false,

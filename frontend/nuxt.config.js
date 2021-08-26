@@ -2,7 +2,7 @@ require("dotenv").config({ path: "../core/.env" });
 
 export default {
   head: {
-    title: "PortalApp",
+    title: "Ирбис: Модуль ВКР",
     meta: [
       { charset: "utf-8" },
       {
@@ -18,7 +18,10 @@ export default {
     color: "#fff"
   },
   css: [],
-  plugins: [],
+  plugins: [
+    '../_common/plugins/app.js',
+    '../_common/plugins/settings.js',
+  ],
   modules: ["@nuxtjs/axios", "@nuxtjs/dotenv"],
   axios: {
     baseURL: process.env.SITE_URL + "api/",

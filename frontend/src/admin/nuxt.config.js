@@ -23,6 +23,8 @@ export default {
     '~/plugins/modal.js',
     '~/plugins/table.js',
     '../_common/plugins/filepond.js',
+    '../_common/plugins/settings.js',
+    '../_common/plugins/app.js',
   ],
   modules: ['bootstrap-vue/nuxt', 'nuxt-izitoast', '@nuxtjs/axios', '@nuxtjs/auth', '@nuxtjs/pwa', '@nuxtjs/dotenv'],
   loading: {
@@ -62,6 +64,7 @@ export default {
     },
   },
   router: {
+    base: '/admin/',
     linkActiveClass: 'active',
     middleware: ['auth'],
   },
@@ -74,7 +77,7 @@ export default {
     dir: 'dist/admin',
   },
   server: {
-    host: '127.0.0.1',
+    host: '0.0.0.0',
     port: 5876,
   },
 }

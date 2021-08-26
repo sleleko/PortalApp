@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Controllers\Admin;
 
 use App\Models\User;
@@ -12,12 +10,10 @@ use Vesp\Controllers\ModelController;
 
 class Users extends ModelController
 {
+
     protected $model = User::class;
     protected $scope = 'users';
 
-    /**
-     * @return ResponseInterface
-     */
     public function patch(): ResponseInterface
     {
         if (!$password = $this->getProperty('password')) {
@@ -27,23 +23,25 @@ class Users extends ModelController
         return parent::patch();
     }
 
+
     /**
-     * @param Model $record
+     * @param User|Model $record
+     *
      * @return ResponseInterface|null
      */
     protected function beforeSave(Model $record): ?ResponseInterface
     {
         if (!$record->username) {
-            return $this->failure('You should specify an username');
+            return $this->failure('Вы должны указать имя пользователя');
         }
         if (!$record->password) {
-            return $this->failure('You should specify a password');
+            return $this->failure('Вы должны указать пароль');
         }
         if (!$record->fullname) {
-            return $this->failure('You should specify a full name');
+            return $this->failure('Вы должны указать ФИО пользователя');
         }
         if (!$record->role_id) {
-            return $this->failure('You should specify an user group');
+            return $this->failure('Вы должны выбрать группу пользователя');
         }
 
         $check = User::query()->where('username', '=', $record->username);
@@ -51,34 +49,24 @@ class Users extends ModelController
             $check->where('id', '!=', $record->id);
         }
         if ($check->count()) {
-            return $this->failure('This username is already in use');
+            return $this->failure('Данное имя пользователя уже используется!');
         }
 
         return null;
     }
 
-    /**
-     * @param Builder $c
-     * @return Builder
-     */
     protected function beforeCount(Builder $c): Builder
     {
         if ($query = trim($this->getProperty('query'))) {
-            $c->where(
-                function (Builder $q) use ($query) {
-                    $q->where('username', 'LIKE', "%$query%");
-                    $q->orWhere('fullname', 'LIKE', "%$query%");
-                }
-            );
+            $c->where(static function (Builder $q) use ($query) {
+                $q->where('username', 'LIKE', "%$query%");
+                $q->orWhere('fullname', 'LIKE', "%$query%");
+            });
         }
 
         return $c;
     }
 
-    /**
-     * @param Builder $c
-     * @return Builder
-     */
     protected function afterCount(Builder $c): Builder
     {
         $c->select('id', 'role_id', 'username', 'fullname', 'email', 'phone', 'active');

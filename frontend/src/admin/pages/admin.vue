@@ -34,6 +34,9 @@ export default {
       items.push({to: 'admin-user-roles', title: 'Группы пользователей'})
       items.push({to: 'admin-units', title: 'Подразделения'})
     }
+    if (this.$auth.hasScope('users') || this.$auth.hasScope('users/get') || this.$auth.hasScope('vkr')) {
+      items.push({to: 'vkr', title: 'Управление ВКР'})
+    }
 
     return {
       loading: false,
